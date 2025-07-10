@@ -1,0 +1,325 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-07-02",
+    "description": "Base de conocimiento para creación de agentes de IA"
+  },
+  "index": {
+    "claude_code_best_practices": ["section_1"],
+    "agent_architectures": ["section_2"],
+    "prompting_techniques": ["section_3"],
+    "memory_systems": ["section_4"],
+    "tool_orchestration": ["section_5"],
+    "multi_agent_systems": ["section_6"],
+    "error_handling": ["section_7"],
+    "security_privacy": ["section_8"],
+    "evaluation_metrics": ["section_9"],
+    "provider_comparison": ["section_10"]
+  },
+  "sections": {
+    "section_1": {
+      "title": "Claude Code Best Practices",
+      "content": {
+        "environment_setup": {
+          "claude_md": {
+            "purpose": "Archivo especial que Claude lee automáticamente al iniciar",
+            "locations": ["root del repo", "carpetas padre", "carpetas hijo", "~/.claude/CLAUDE.md"],
+            "best_practices": [
+              "Mantener conciso y legible",
+              "Incluir comandos bash comunes",
+              "Documentar archivos core y utilidades",
+              "Especificar guías de estilo de código",
+              "Instrucciones de testing"
+            ]
+          },
+          "tool_allowlist": {
+            "methods": ["Always allow en prompts", "/permissions command", "settings.json", "--allowedTools flag"],
+            "recommendations": "Permitir Edit, Bash(git commit:*), herramientas MCP específicas"
+          }
+        },
+        "workflows": {
+          "explore_plan_code_commit": {
+            "steps": [
+              "Leer archivos relevantes sin escribir código",
+              "Crear plan usando 'think' para extended thinking",
+              "Implementar solución en código",
+              "Commit y crear PR"
+            ],
+            "thinking_levels": ["think", "think hard", "think harder", "ultrathink"]
+          },
+          "test_driven_development": {
+            "steps": [
+              "Escribir tests basados en input/output esperado",
+              "Confirmar que tests fallan",
+              "Commit de tests",
+              "Escribir código hasta que pasen",
+              "Commit del código"
+            ]
+          }
+        },
+        "optimization": {
+          "specificity": "Instrucciones específicas mejoran tasa de éxito",
+          "images": "Usar screenshots y diagramas para mejor contexto",
+          "urls": "Proporcionar URLs específicas para fetch",
+          "context_management": "Usar /clear entre tareas para mantener contexto enfocado"
+        }
+      }
+    },
+    "section_2": {
+      "title": "Agent Architectures",
+      "content": {
+        "patterns": {
+          "single_agent_tools": {
+            "description": "Un agente con múltiples herramientas",
+            "use_cases": "Tareas específicas bien definidas",
+            "pros": "Simple, fácil de mantener",
+            "cons": "Limitado para tareas complejas"
+          },
+          "multi_agent_systems": {
+            "description": "Múltiples agentes especializados coordinados",
+            "use_cases": "Procesos complejos con subtareas independientes",
+            "pros": "Escalable, especialización",
+            "cons": "Mayor complejidad de coordinación"
+          },
+          "hierarchical_agents": {
+            "description": "Agentes en estructura jerárquica",
+            "use_cases": "Sistemas con múltiples niveles de decisión",
+            "pros": "Clara delegación de responsabilidades",
+            "cons": "Puede ser lento en decisiones"
+          },
+          "pipeline_agents": {
+            "description": "Agentes en secuencia de procesamiento",
+            "use_cases": "Flujos de trabajo lineales",
+            "pros": "Predecible, fácil de debuggear",
+            "cons": "Menos flexible para cambios"
+          }
+        },
+        "components": {
+          "observe": "Percepción del estado y contexto",
+          "reason": "Análisis y toma de decisiones",
+          "act": "Ejecución de acciones mediante herramientas",
+          "evaluate": "Auto-evaluación y ajuste"
+        }
+      }
+    },
+    "section_3": {
+      "title": "Prompting Techniques",
+      "content": {
+        "structure": {
+          "system_message": {
+            "components": ["rol", "personalidad", "instrucciones", "limitaciones"],
+            "example": "Eres un asistente experto en [dominio] que ayuda con [tarea específica]"
+          },
+          "tool_descriptions": {
+            "format": "JSON con name, description, parameters",
+            "best_practices": [
+              "Descripciones claras y detalladas",
+              "Parámetros bien documentados",
+              "Ejemplos de uso",
+              "Casos de error"
+            ]
+          }
+        },
+        "techniques": {
+          "few_shot": "Proporcionar ejemplos específicos",
+          "chain_of_thought": "Descomponer razonamiento en pasos",
+          "prompt_chaining": "Dividir tareas complejas en subtareas",
+          "memory_augmented": "Usar RAG para contexto adicional"
+        },
+        "provider_specific": {
+          "openai": "System messages con handoffs",
+          "anthropic": "Prompts estructurados con flujos claros",
+          "google": "LlmAgent con instrucciones detalladas"
+        }
+      }
+    },
+    "section_4": {
+      "title": "Memory Systems",
+      "content": {
+        "types": {
+          "short_term": "Contexto de conversación actual",
+          "long_term": "Almacenamiento persistente en JSON",
+          "episodic": "Eventos y experiencias específicas",
+          "semantic": "Conocimiento del dominio"
+        },
+        "implementation": {
+          "json_structure": {
+            "agent_info": "Metadatos del agente",
+            "session_history": "Registro de sesiones",
+            "learned_patterns": "Patrones identificados",
+            "user_preferences": "Preferencias del usuario",
+            "domain_knowledge": "Conocimiento específico"
+          },
+          "update_protocol": {
+            "on_start": "Read memory.json",
+            "during_session": "Track important information",
+            "on_end": "Write updated memory.json"
+          }
+        },
+        "best_practices": [
+          "Solo guardar información accionable",
+          "Estructurar para búsqueda eficiente",
+          "Implementar versionado",
+          "Limitar tamaño de memoria"
+        ]
+      }
+    },
+    "section_5": {
+      "title": "Tool Orchestration",
+      "content": {
+        "coordination_patterns": {
+          "sequential": "Herramientas ejecutadas en orden",
+          "parallel": "Ejecución simultánea de herramientas independientes",
+          "conditional": "Selección basada en condiciones",
+          "iterative": "Repetición hasta cumplir criterio"
+        },
+        "tool_types": {
+          "information_gathering": ["search", "read", "fetch"],
+          "processing": ["analyze", "transform", "calculate"],
+          "action": ["write", "execute", "communicate"],
+          "validation": ["test", "verify", "check"]
+        },
+        "integration": {
+          "mcp": "Model Context Protocol para conexiones estandarizadas",
+          "apis": "REST/GraphQL para servicios externos",
+          "webhooks": "Eventos asincrónicos",
+          "queues": "Procesamiento de tareas en background"
+        }
+      }
+    },
+    "section_6": {
+      "title": "Multi-Agent Systems",
+      "content": {
+        "communication": {
+          "methods": ["Shared memory", "Message passing", "Blackboard", "Direct API calls"],
+          "protocols": ["Request-response", "Publish-subscribe", "Broadcast", "Point-to-point"]
+        },
+        "coordination": {
+          "centralized": "Coordinador central gestiona agentes",
+          "decentralized": "Agentes se auto-organizan",
+          "hybrid": "Combinación de ambos enfoques"
+        },
+        "synchronization": {
+          "locks": "Prevenir acceso concurrente",
+          "semaphores": "Limitar recursos compartidos",
+          "barriers": "Sincronizar puntos de encuentro",
+          "events": "Notificar cambios de estado"
+        }
+      }
+    },
+    "section_7": {
+      "title": "Error Handling",
+      "content": {
+        "strategies": {
+          "retry_policies": {
+            "exponential_backoff": "Incrementar tiempo entre reintentos",
+            "max_attempts": "Límite de 3-5 intentos",
+            "retry_conditions": "Solo en errores transitorios (5xx)"
+          },
+          "circuit_breakers": {
+            "states": ["closed", "open", "half-open"],
+            "thresholds": "Configurar límites de fallo",
+            "recovery": "Tiempo antes de reintentar"
+          },
+          "graceful_degradation": {
+            "fallback_responses": "Respuestas alternativas",
+            "reduced_functionality": "Modo limitado pero funcional",
+            "cached_results": "Usar resultados anteriores"
+          }
+        },
+        "validation": {
+          "input": "Sanitizar y validar entradas",
+          "output": "Verificar formato y contenido",
+          "consistency": "Comprobar coherencia lógica"
+        }
+      }
+    },
+    "section_8": {
+      "title": "Security and Privacy",
+      "content": {
+        "access_control": {
+          "authentication": "Verificar identidad",
+          "authorization": "Permisos granulares",
+          "scoping": "Limitar acceso a recursos",
+          "audit": "Registrar todas las acciones"
+        },
+        "data_protection": {
+          "encryption": "Cifrar datos sensibles",
+          "anonymization": "Eliminar PII cuando sea posible",
+          "retention": "Políticas de retención claras",
+          "compliance": "GDPR, CCPA, etc."
+        },
+        "sandboxing": {
+          "execution": "Entornos aislados para código",
+          "network": "Restricciones de red",
+          "filesystem": "Límites de acceso a archivos",
+          "resources": "Cuotas de CPU/memoria"
+        }
+      }
+    },
+    "section_9": {
+      "title": "Evaluation Metrics",
+      "content": {
+        "performance_kpis": {
+          "accuracy": ">95% para tareas básicas",
+          "task_completion": ">90% workflows exitosos",
+          "response_time": "<500ms para tiempo real",
+          "error_rate": "<5% tasa de fallo"
+        },
+        "quality_metrics": {
+          "relevance": "Respuestas pertinentes al contexto",
+          "coherence": "Consistencia lógica",
+          "completeness": "Información completa",
+          "clarity": "Comunicación clara"
+        },
+        "operational_metrics": {
+          "availability": ">99.9% uptime",
+          "scalability": "Capacidad de crecimiento",
+          "resource_usage": "CPU <80%, memoria <90%",
+          "cost_efficiency": "Optimización de tokens"
+        }
+      }
+    },
+    "section_10": {
+      "title": "Provider Comparison",
+      "content": {
+        "openai": {
+          "strengths": ["Agents SDK", "Simplicidad", "Herramientas nativas"],
+          "use_cases": ["Prototipos rápidos", "Aplicaciones simples"],
+          "key_features": ["Handoffs", "Tracing", "Responses API"]
+        },
+        "anthropic": {
+          "strengths": ["Confiabilidad", "Flujos estructurados", "Claude"],
+          "use_cases": ["Tareas complejas", "Aplicaciones críticas"],
+          "key_features": ["MCP", "Tool use", "Extended thinking"]
+        },
+        "google": {
+          "strengths": ["Escalabilidad", "Multi-agente", "Integración GCP"],
+          "use_cases": ["Sistemas empresariales", "Pipelines complejos"],
+          "key_features": ["ADK", "Sequential/Parallel", "Vertex AI"]
+        }
+      }
+    }
+  },
+  "quick_reference": {
+    "agent_creation_checklist": [
+      "Definir propósito y alcance",
+      "Elegir arquitectura apropiada",
+      "Diseñar estructura de carpetas",
+      "Crear CLAUDE.md con instrucciones",
+      "Configurar sistema de memoria",
+      "Desarrollar knowledge_base",
+      "Implementar herramientas necesarias",
+      "Establecer métricas de evaluación",
+      "Realizar pruebas exhaustivas",
+      "Documentar y entregar"
+    ],
+    "common_commands": {
+      "memory_init": "Read ./memory.json",
+      "memory_update": "Write ./memory.json",
+      "knowledge_query": "Read ./knowledge_base.json",
+      "create_structure": "MultiEdit [multiple files]",
+      "parallel_task": "Task with description"
+    }
+  }
+}
